@@ -47,7 +47,7 @@ def simple_accuracy(preds, labels):
 
 def reduce_mean(tensor, nprocs):
     rt = tensor.clone()
-    dist.all_reduce(rt, op=dist.ReduceOp.SUM)
+    #dist.all_reduce(rt, op=dist.ReduceOp.SUM)
     rt /= nprocs
     return rt
 
@@ -73,7 +73,7 @@ def setup(args):
     config.slide_step = args.slide_step
 
     if args.dataset == "CUB_200_2011":
-        num_classes = 200
+        num_classes = 4
     elif args.dataset == "car":
         num_classes = 196
     elif args.dataset == "nabirds":
@@ -151,7 +151,7 @@ def valid(args, model, writer, test_loader, global_step):
     all_preds, all_label = all_preds[0], all_label[0]
     accuracy = simple_accuracy(all_preds, all_label)
     accuracy = torch.tensor(accuracy).to(args.device)
-    dist.barrier()
+    #dist.barrier()
     val_accuracy = reduce_mean(accuracy, args.nprocs)
     val_accuracy = val_accuracy.detach().cpu().numpy()
 
@@ -279,7 +279,7 @@ def train(args, model):
         all_preds, all_label = all_preds[0], all_label[0]
         accuracy = simple_accuracy(all_preds, all_label)
         accuracy = torch.tensor(accuracy).to(args.device)
-        dist.barrier()
+        #dist.barrier()
         train_accuracy = reduce_mean(accuracy, args.nprocs)
         train_accuracy = train_accuracy.detach().cpu().numpy()
         logger.info("train accuracy so far: %f" % train_accuracy)
@@ -305,7 +305,7 @@ def main():
                                                  "ViT-L_32", "ViT-H_14"],
                         default="ViT-B_16",
                         help="Which variant to use.")
-    parser.add_argument("--pretrained_dir", type=str, default="./pretrained_ViT",
+    parser.add_argument("--pretrained_dir", type=str, default="./pretrained_ViT/ViT-B_16.npz",
                         help="Where to search for pretrained ViT models.")
     parser.add_argument("--pretrained_model", type=str, default=None,
                         help="load pretrained model")
@@ -313,11 +313,11 @@ def main():
                         help="The output directory where checkpoints will be written.")
     parser.add_argument("--img_size", default=448, type=int,
                         help="Resolution size")
-    parser.add_argument("--train_batch_size", default=16, type=int,
+    parser.add_argument("--train_batch_size", default=4, type=int,
                         help="Total batch size for training.")
-    parser.add_argument("--eval_batch_size", default=8, type=int,
+    parser.add_argument("--eval_batch_size", default=16, type=int,
                         help="Total batch size for eval.")
-    parser.add_argument("--eval_every", default=100, type=int,
+    parser.add_argument("--eval_every", default=1000, type=int,
                         help="Run prediction on validation set every so many steps."
                              "Will always run one evaluation at the end of training.")
 
@@ -325,7 +325,7 @@ def main():
                         help="The initial learning rate for SGD.")
     parser.add_argument("--weight_decay", default=0, type=float,
                         help="Weight deay if we apply some.")
-    parser.add_argument("--num_steps", default=10000, type=int,
+    parser.add_argument("--num_steps", default=20000, type=int,
                         help="Total number of training epochs to perform.")
     parser.add_argument("--decay_type", choices=["cosine", "linear"], default="cosine",
                         help="How to decay the learning rate.")
@@ -334,7 +334,7 @@ def main():
     parser.add_argument("--max_grad_norm", default=1.0, type=float,
                         help="Max gradient norm.")
 
-    parser.add_argument("--local_rank", type=int, default=-1,
+    parser.add_argument("--local_rank", type=int,
                         help="local_rank for distributed training on gpus")
     parser.add_argument('--seed', type=int, default=42,
                         help="random seed for initialization")
