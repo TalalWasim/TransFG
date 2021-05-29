@@ -303,9 +303,9 @@ def main():
     parser.add_argument('--data_root', type=str, default='./dataset')
     parser.add_argument("--model_type", choices=["ViT-B_16", "ViT-B_32", "ViT-L_16",
                                                  "ViT-L_32", "ViT-H_14"],
-                        default="ViT-B_16",
+                        default="ViT-B_32",
                         help="Which variant to use.")
-    parser.add_argument("--pretrained_dir", type=str, default="./pretrained_ViT/ViT-B_16.npz",
+    parser.add_argument("--pretrained_dir", type=str, default="./pretrained_ViT/ViT-B_32.npz",
                         help="Where to search for pretrained ViT models.")
     parser.add_argument("--pretrained_model", type=str, default=None,
                         help="load pretrained model")
@@ -317,19 +317,19 @@ def main():
                         help="Total batch size for training.")
     parser.add_argument("--eval_batch_size", default=16, type=int,
                         help="Total batch size for eval.")
-    parser.add_argument("--eval_every", default=1000, type=int,
+    parser.add_argument("--eval_every", default=24365, type=int,
                         help="Run prediction on validation set every so many steps."
                              "Will always run one evaluation at the end of training.")
 
-    parser.add_argument("--learning_rate", default=3e-2, type=float,
+    parser.add_argument("--learning_rate", default=5e-2, type=float,
                         help="The initial learning rate for SGD.")
     parser.add_argument("--weight_decay", default=0, type=float,
                         help="Weight deay if we apply some.")
-    parser.add_argument("--num_steps", default=20000, type=int,
+    parser.add_argument("--num_steps", default=97460, type=int,
                         help="Total number of training epochs to perform.")
     parser.add_argument("--decay_type", choices=["cosine", "linear"], default="cosine",
                         help="How to decay the learning rate.")
-    parser.add_argument("--warmup_steps", default=500, type=int,
+    parser.add_argument("--warmup_steps", default=14619, type=int,
                         help="Step of training to perform learning rate warmup for.")
     parser.add_argument("--max_grad_norm", default=1.0, type=float,
                         help="Max gradient norm.")
@@ -338,7 +338,7 @@ def main():
                         help="local_rank for distributed training on gpus")
     parser.add_argument('--seed', type=int, default=42,
                         help="random seed for initialization")
-    parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
+    parser.add_argument('--gradient_accumulation_steps', type=int, default=4,
                         help="Number of updates steps to accumulate before performing a backward/update pass.")
     parser.add_argument('--fp16', action='store_true',
                         help="Whether to use 16-bit float precision instead of 32-bit")
