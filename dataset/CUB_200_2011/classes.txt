@@ -1,0 +1,4 @@
+1 linear
+2 slab
+3 sans
+4 triangular
