@@ -1,6 +1,10 @@
-torch==1.5.1
-torchvision==0.6.1
-numpy
-tqdm
-tensorboard
-ml-collections
+tqdm==4.59.0
+torchvision==0.8.2
+apex==0.1
+torch==1.7.1
+numpy==1.19.2
+matplotlib==3.3.4
+asposestorage==1.0.2
+Pillow==8.2.0
+scikit_learn==0.24.2
+utils==1.0.1
