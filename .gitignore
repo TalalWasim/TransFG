@@ -1,5 +1,7 @@
-pretrained_ViT/
-output/
+output/serif_B_16_long_checkpoint.bin
+output/serif_B_32_long_checkpoint.bin
+pretrained_ViT/ViT-B_16.npz
+pretrained_ViT/ViT-B_32.npz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
