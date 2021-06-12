@@ -84,7 +84,6 @@ def setup(args):
         num_classes = 5089
 
     model = VisionTransformer(config, args.img_size, zero_head=True, num_classes=num_classes,                                                   smoothing_value=args.smoothing_value)
-
     model.load_from(np.load(args.pretrained_dir))
     if args.pretrained_model is not None:
         pretrained_model = torch.load(args.pretrained_model)['model']
@@ -338,7 +337,7 @@ def main():
                         help="local_rank for distributed training on gpus")
     parser.add_argument('--seed', type=int, default=42,
                         help="random seed for initialization")
-    parser.add_argument('--gradient_accumulation_steps', type=int, default=4,
+    parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
                         help="Number of updates steps to accumulate before performing a backward/update pass.")
     parser.add_argument('--fp16', action='store_true',
                         help="Whether to use 16-bit float precision instead of 32-bit")
